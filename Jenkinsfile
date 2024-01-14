@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     docker.build("frontend-image", "-f Dockerfile.frontend .")
-                    docker.withRegistry('https://registry.example.com', 'credentials-id') {
+                    docker.withRegistry('https://hub.docker.com', 'credentials-id') {
                         docker.image("frontend-image").push()
                     }
                 }
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     docker.build("backend-image", "-f Dockerfile.backend .")
-                    docker.withRegistry('https://registry.example.com', 'credentials-id') {
+                    docker.withRegistry('https://hub.docker.com', 'credentials-id') {
                         docker.image("backend-image").push()
                     }
                 }
