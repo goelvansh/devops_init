@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REGISTRY = 'https://index.docker.io/v1/'
+        DOCKER_REGISTRY = 'https://registry.hub.docker.com/v2/'
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
         FRONTEND_IMAGE_NAME = 'your_frontend_image'
         BACKEND_IMAGE_NAME = 'your_backend_image'
