@@ -46,21 +46,23 @@ pipeline {
                     // withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     //     bat "echo $PASSWORD | docker login -u $USERNAME --password-stdin %DOCKER_REGISTRY%"
                     // }
+                    script{
                     docker.withRegistry('https://registry.hub.docker.com/v2/', 'dockerhub') {
 
                     def customImage = docker.build("tadashi158/$FRONTEND_IMAGE_NAME:${env.BUILD_ID}", "-f ${env.WORKSPACE}/Dockerfile.frontend .")
 
                     /* Push the container to the custom Registry */
                     customImage.push()
+                    }
                 }
                 }
             }
 
-      stage('Push') {
-        steps {
-          sh 'docker push tadashi158/your_frontend_image:$BUILD_NUMBER'
-        }
-      }
+            stage('Push') {
+                steps {
+                sh 'docker push tadashi158/your_frontend_image:$BUILD_NUMBER'
+                }
+            }
 
 
         // stage('Build and Push Backend Image') {
