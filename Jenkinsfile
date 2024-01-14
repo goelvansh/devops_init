@@ -20,7 +20,7 @@ pipeline {
                 script {
                     docker.build("tadashi158/$FRONTEND_IMAGE_NAME:${env.BUILD_ID}", "-f ${env.WORKSPACE}/Dockerfile.frontend .")
                     sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                    sh 'docker push tadashi158/FRONTEND_IMAGE_NAME:$BUILD_NUMBER'
+                    sh 'docker push tadashi158/your_frontend_image:$BUILD_NUMBER'
                     // withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     //     sh "echo ${PASSWORD} | docker login -u ${USERNAME} --password-stdin ${DOCKER_REGISTRY}"
                     //     docker.withRegistry(DOCKER_REGISTRY, DOCKER_CREDENTIALS) {
@@ -60,21 +60,21 @@ pipeline {
         //     }
         // }
 
-        stage('Deploy') {
-            steps {
-                script {
-                    dockerComposeBuild()
-                    dockerComposeUp()
-                }
-            }
-        }
-    }
+//         stage('Deploy') {
+//             steps {
+//                 script {
+//                     dockerComposeBuild()
+//                     dockerComposeUp()
+//                 }
+//             }
+//         }
+//     }
 
-    post {
-        always {
-            script {
-                dockerComposeDown()
-            }
-        }
-    }
+//     post {
+//         always {
+//             script {
+//                 dockerComposeDown()
+//             }
+//         }
+//     }
 }
