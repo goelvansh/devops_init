@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('http://backend:3000/api/data')
+    fetch('http://localhost:3000/') 
         .then(response => response.json())
         .then(data => {
             console.log(data);
