@@ -47,12 +47,11 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    dockerComposeBuild()
-                    dockerComposeUp()
+                    bat 'docker-compose build'
+                    bat 'docker-compose up'
                 }
             }
         }
-    }
 
         post {
             always {
