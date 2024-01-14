@@ -19,8 +19,8 @@ pipeline {
             steps {
                 script {
                     docker.build("tadashi158/$FRONTEND_IMAGE_NAME:${env.BUILD_ID}", "-f ${env.WORKSPACE}/Dockerfile.frontend .")
-                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                    sh 'docker push tadashi158/your_frontend_image:$BUILD_NUMBER'
+                    // sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    // sh 'docker push tadashi158/your_frontend_image:$BUILD_NUMBER'
                     // withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     //     sh "echo ${PASSWORD} | docker login -u ${USERNAME} --password-stdin ${DOCKER_REGISTRY}"
                     //     docker.withRegistry(DOCKER_REGISTRY, DOCKER_CREDENTIALS) {
@@ -31,19 +31,17 @@ pipeline {
                 }
             }
         }
-    //     stage('Login') {
-    //     steps {
-    //       sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-    //     }
-    //   }
+        stage('Login') {
+        steps {
+          sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        }
+      }
 
-    //   stage('Push') {
-    //     steps {
-    //       sh 'docker push helloaryang/ssnui:$BUILD_NUMBER'
-    //       sh 'docker push helloaryang/ssnserver:$BUILD_NUMBER'
-    //       sh ' helloaryang/postgisserver:$BUILD_NUMBER'
-    //     }
-    //   }
+      stage('Push') {
+        steps {
+          sh 'docker push tadashi158/your_frontend_image:$BUILD_NUMBER'
+        }
+      }
 
 
         // stage('Build and Push Backend Image') {
