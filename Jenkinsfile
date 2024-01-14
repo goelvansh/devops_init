@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REGISTRY = 'https://registry.hub.docker.com'
+        DOCKER_REGISTRY = 'https://index.docker.io/v1/'
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
         FRONTEND_IMAGE_NAME = 'your_frontend_image'
         BACKEND_IMAGE_NAME = 'your_backend_image'
@@ -42,7 +42,7 @@ pipeline {
     //     }
             stage('Login') {
                 steps {
-                    withCredentials([usernamePassword(credentialsId: DOCKERHUB_CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh "docker login -u ${USERNAME} -p ${PASSWORD} ${DOCKER_REGISTRY}"
                     }
                 }
