@@ -43,11 +43,10 @@ pipeline {
             stage('Login') {
                 steps {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh "docker login -u $USERNAME -p $PASSWORD $DOCKER_REGISTRY"
+                        bat "echo %PASSWORD% | docker login -u %USERNAME% --password-stdin %DOCKER_REGISTRY%"
                     }
                 }
             }
-
 
       stage('Push') {
         steps {
