@@ -1,6 +1,13 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_REGISTRY = 'https://registry.hub.docker.com'
+        DOCKER_CREDENTIALS = 'credentials-id'
+        FRONTEND_IMAGE_NAME = 'your_frontend_image'
+        BACKEND_IMAGE_NAME = 'your_backend_image'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -11,9 +18,12 @@ pipeline {
         stage('Build and Push Frontend Image') {
             steps {
                 script {
-                    docker.build("frontend-image", "-f Dockerfile.frontend .")
-                    docker.withRegistry('https://registry.hub.docker.com', 'credentials-id') {
-                        docker.image("frontend-image").push()
+                    docker.build(FRONTEND_IMAGE_NAME, "-f Dockerfile.frontend .")
+                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh "echo ${PASSWORD} | docker login -u ${USERNAME} --password-stdin ${DOCKER_REGISTRY}"
+                        docker.withRegistry(DOCKER_REGISTRY, DOCKER_CREDENTIALS) {
+                            docker.image(FRONTEND_IMAGE_NAME).push()
+                        }
                     }
                 }
             }
@@ -22,9 +32,12 @@ pipeline {
         stage('Build and Push Backend Image') {
             steps {
                 script {
-                    docker.build("backend-image", "-f Dockerfile.backend .")
-                    docker.withRegistry('https://registry.hub.docker.com', 'credentials-id') {
-                        docker.image("backend-image").push()
+                    docker.build(BACKEND_IMAGE_NAME, "-f Dockerfile.backend .")
+                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh "echo ${PASSWORD} | docker login -u ${USERNAME} --password-stdin ${DOCKER_REGISTRY}"
+                        docker.withRegistry(DOCKER_REGISTRY, DOCKER_CREDENTIALS) {
+                            docker.image(BACKEND_IMAGE_NAME).push()
+                        }
                     }
                 }
             }
