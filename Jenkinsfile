@@ -53,7 +53,7 @@ pipeline {
         post {
             always {
                 script {
-                    dockerComposeDown()
+                    bat 'docker-compose down'
                 }
             }
         }
