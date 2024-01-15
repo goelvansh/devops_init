@@ -21,8 +21,6 @@ pipeline {
                     docker.withRegistry('https://registry.hub.docker.com/v2/', 'dockerhub') {
 
                     def customImage = docker.build("tadashi158/$FRONTEND_IMAGE_NAME:${env.BUILD_ID}", "-f ${env.WORKSPACE}/Dockerfile.frontend .")
-
-                    /* Push the container to the custom Registry */
                     customImage.push()
                     }
                 }
@@ -36,8 +34,6 @@ pipeline {
                     docker.withRegistry('https://registry.hub.docker.com/v2/', 'dockerhub') {
 
                     def customImage = docker.build("tadashi158/$BACKEND_IMAGE_NAME:${env.BUILD_ID}", "-f ${env.WORKSPACE}/Dockerfile.backend .")
-
-                    /* Push the container to the custom Registry */
                     customImage.push()
                     }
                 }
